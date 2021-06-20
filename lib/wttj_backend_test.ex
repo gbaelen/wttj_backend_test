@@ -13,7 +13,7 @@ defmodule WttjBackendTest do
 
   @spec format_csv_data :: list
   def format_csv_data do
-    get_csv_data()
+    get_job_csv_data()
       |> Stream.filter(fn
           ["profession_id" | _] -> false
           [_ | _] -> true
@@ -22,7 +22,9 @@ defmodule WttjBackendTest do
       |> Enum.frequencies
   end
 
+  @spec extract_category_and_location(list) :: list
   def extract_category_and_location(row) do
+    categories_name = get_category_data()
     [category,_,_,latitude,longitude] = row
 
     latitude = if latitude == "" do 0 else String.to_float(latitude) end
@@ -31,13 +33,31 @@ defmodule WttjBackendTest do
     continent = get_location_country_code(latitude, longitude)
                 |> get_continent_from_country_code
 
-    [category, continent]
+    category_name = if categories_name[category] == nil do "Unknown" else categories_name[category] end
+    [category_name, continent]
   end
 
-  @spec get_csv_data :: File.Stream.t()
-  def get_csv_data do
+  @spec get_job_csv_data :: File.Stream.t()
+  def get_job_csv_data do
     File.stream!("data/technical-test-jobs.csv")
     |> CSV.decode!
+  end
+
+  def get_category_data do
+    File.stream!("data/technical-test-professions.csv")
+    |> CSV.decode!
+    |> Stream.filter(fn
+      ["id" | _] -> false
+      [_ | _] -> true
+    end)
+    |> Stream.map(&csv_category_to_map(&1))
+    |> Map.new
+  end
+
+  @spec csv_category_to_map(any) :: none
+  def csv_category_to_map(row) do
+    [id, _, category] = row
+    {id, category}
   end
 
   @spec get_location_country_code(Float, Float) :: String.t()

@@ -39,10 +39,10 @@ defmodule WttjBackendTestTest do
   end
 
   test "gets category and location for correct entry" do
-    assert WttjBackendTest.extract_category_and_location(["17","FULL_TIME","Infrastructure Engineer based in Paris/Marseille","48.8867578","2.3253786"]) == ["17", "Europe"]
+    assert WttjBackendTest.extract_category_and_location(["17","FULL_TIME","Infrastructure Engineer based in Paris/Marseille","48.8867578","2.3253786"]) == ["Tech", "Europe"]
   end
 
   test "gets category and location for an entry without location" do
-    assert WttjBackendTest.extract_category_and_location(["2","FULL_TIME","Infrastructure Engineer based in Paris/Marseille","",""]) == ["2", "Unknown"]
+    assert WttjBackendTest.extract_category_and_location(["2","FULL_TIME","Infrastructure Engineer based in Paris/Marseille","",""]) == ["Business", "Unknown"]
   end
 end
