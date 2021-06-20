@@ -40,8 +40,7 @@ defmodule WttjBackendTest do
   @spec get_job_csv_data :: File.Stream.t()
   def get_job_csv_data do
     File.stream!("data/technical-test-jobs.csv")
-    |> Stream.map(&String.trim(&1))
-    |> Stream.map(&String.split(&1, ~r/,(?=(?:(?:[^"]*"){2})*[^"]*$)/))
+    |> CSV.decode!
   end
 
   def get_category_data do
