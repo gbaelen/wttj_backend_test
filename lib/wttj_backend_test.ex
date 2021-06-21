@@ -7,12 +7,61 @@ defmodule WttjBackendTest do
 
   @doc """
   """
-  def count_of_offers_per_category_per_continent do
-    %{}
+  def display_count_of_offers_per_category_per_continent do
+    count_of_offers_per_category_per_continent()
+     |> create_display_string
+     |> IO.puts
   end
 
-  @spec format_csv_data :: list
-  def format_csv_data do
+  def create_display_string(frequencies) do
+    {categories, continents} = get_category_and_continent_keys(frequencies)
+
+    cell_width = get_highest_cell_width(frequencies) + 2 # add 2 to the cell width to have 2 space around the biggest name
+    nb_column_separators = MapSet.size(categories) + 2 # add 2 to count the outer boundaries
+    table_width = (MapSet.size(categories) + 1) * cell_width + nb_column_separators
+
+    row_line = String.duplicate("-", table_width) <> "\n"
+    header_string = for category <- categories, into: "", do: format_cell(category, cell_width)
+    display_string = row_line <> "|" <> String.duplicate(" ", cell_width) <> "|" <> header_string <> "\n" <>row_line
+
+    body_string = for continent <- continents, into: "" do
+      values = for category <- categories, into: "" do
+        value = frequencies[[category, continent]]
+        if value do
+          format_cell(Integer.to_string(value), cell_width)
+        else
+          format_cell("0", cell_width)
+        end
+      end
+
+      "|" <> format_cell("#{continent}", cell_width) <> values <> "\n" <> row_line
+    end
+
+    display_string <> body_string
+  end
+
+  def format_cell(value, cell_width) do
+    space_before = trunc((cell_width - String.length(value))/2)
+    space_after = (cell_width - String.length(value)) - space_before
+    String.duplicate(" ", space_before) <> value <> String.duplicate(" ", space_after) <> "|"
+  end
+  def get_highest_cell_width(frequencies) do
+    values = for {key, value} <- frequencies, into: [], do: [Enum.at(key, 0), Enum.at(key, 1), Integer.to_string(value)]
+    values
+    |> List.flatten
+    |> Enum.map(fn x -> String.length(x) end)
+    |> Enum.max
+  end
+
+  def get_category_and_continent_keys(frequencies) do
+    category_keys = for {keys, _val} <- frequencies, into: [], do: Enum.at(keys, 0)
+    continent_keys = for {keys, _val} <- frequencies, into: [], do: Enum.at(keys, 1)
+
+    {MapSet.new(category_keys), MapSet.new(continent_keys)}
+  end
+
+  @spec count_of_offers_per_category_per_continent :: list
+  def count_of_offers_per_category_per_continent do
     get_job_csv_data()
       |> Stream.filter(fn
           ["profession_id" | _] -> false
