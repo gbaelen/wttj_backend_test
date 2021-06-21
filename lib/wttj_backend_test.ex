@@ -9,8 +9,61 @@ defmodule WttjBackendTest do
   """
   def display_count_of_offers_per_category_per_continent do
     count_of_offers_per_category_per_continent()
+     |> add_total_to_frequencies
      |> create_display_string
      |> IO.puts
+  end
+
+  @spec add_total_to_frequencies(map) :: map
+  def add_total_to_frequencies(frequencies) do
+    {total_frequencies_categories, total_frequencies_continents} = get_total_frequencies(frequencies)
+
+    total_categories = Enum.reduce(total_frequencies_categories, 0, fn {_, val}, acc -> val + acc end)
+
+    frequencies
+      |> Map.merge(total_frequencies_categories)
+      |> Map.merge(total_frequencies_continents)
+      |> Map.put([" Total", " Total"], total_categories)
+  end
+
+  @spec get_total_frequencies(map) :: {map, map}
+  def get_total_frequencies(frequencies) do
+    {categories, continents} = get_category_and_continent_keys(frequencies)
+
+    total_categories = get_total_categories(categories, continents, frequencies)
+    total_continents = get_total_continents(categories, continents, frequencies)
+
+    total_frequencies_categories = for {key, value} <- total_categories, into: %{}, do: {[key, " Total"], value}
+    total_frequencies_continents = for {key, value} <- total_continents, into: %{}, do: {[" Total", key], value}
+
+    {total_frequencies_categories, total_frequencies_continents}
+  end
+
+  def get_total_continents(categories, continents, frequencies) do
+    for continent <- continents, into: %{} do
+      total = for category <- categories, into: [] do
+        if frequencies[[category, continent]] do
+          frequencies[[category, continent]]
+        else
+          0
+        end
+      end
+      {continent, Enum.sum(total)}
+    end
+  end
+
+  @spec get_total_categories(any, any, any) :: list
+  def get_total_categories(categories, continents, frequencies) do
+    for category <- categories, into: %{} do
+      total = for continent <- continents, into: [] do
+        if frequencies[[category, continent]] do
+          frequencies[[category, continent]]
+        else
+          0
+        end
+      end
+      {category, Enum.sum(total)}
+    end
   end
 
   def create_display_string(frequencies) do

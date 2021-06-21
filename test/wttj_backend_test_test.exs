@@ -94,6 +94,7 @@ defmodule WttjBackendTestTest do
     assert WttjBackendTest.format_cell("some value", 15) == "  some value   |"
   end
 
+  @tag :pending
   test "get the highest cell width" do
     frequencies_example = %{
       ["Retail", "Asia"] => 7,
@@ -109,5 +110,54 @@ defmodule WttjBackendTestTest do
     }
 
     assert WttjBackendTest.get_highest_cell_width(frequencies_example) == 17
+  end
+
+  @tag :pending
+  test "get the total for the categories" do
+    frequencies_example_small = %{
+      ["Retail", "Asia"] => 7,
+      ["Marketing / Comm'", "North America"] => 12,
+      ["Retail", "Africa"] => 1,
+      ["Tech", "Europe"] => 10
+    }
+
+    assert WttjBackendTest.get_total_categories(["Retail", "Marketing / Comm'", "Tech"], ["Asia", "North America", "Africa", "Europe"], frequencies_example_small) == %{"Marketing / Comm'" => 12, "Retail" => 8, "Tech" => 10}
+  end
+
+  @tag :pending
+  test "get the total for the continents" do
+    frequencies_example_small = %{
+      ["Retail", "Asia"] => 7,
+      ["Marketing / Comm'", "Asia"] => 12,
+      ["Retail", "Africa"] => 1,
+      ["Tech", "Europe"] => 10
+    }
+
+    assert WttjBackendTest.get_total_continents(["Retail", "Marketing / Comm'", "Tech"], ["Asia", "Africa", "Europe"], frequencies_example_small) == %{"Africa" => 1, "Asia" => 19, "Europe" => 10}
+  end
+
+  test "add the totals to the frequencies" do
+    frequencies_example_small = %{
+      ["Retail", "Asia"] => 7,
+      ["Marketing / Comm'", "Asia"] => 12,
+      ["Retail", "Africa"] => 1,
+      ["Tech", "Europe"] => 10
+    }
+
+    expected =  %{
+      ["Retail", "Asia"] => 7,
+      ["Marketing / Comm'", "Asia"] => 12,
+      ["Retail", "Africa"] => 1,
+      ["Tech", "Europe"] => 10,
+      ["Retail", "Total"] => 8,
+      ["Marketing / Comm'", "Total"] => 12,
+      ["Tech", "Total"] => 10,
+      ["Total", "Africa"] => 1,
+      ["Total", "Asia"] => 19,
+      ["Total", "Europe"] => 10,
+      ["Total", "Total"] => 30
+    }
+
+    assert WttjBackendTest.add_total_to_frequencies(frequencies_example_small) == expected
   end
 end
