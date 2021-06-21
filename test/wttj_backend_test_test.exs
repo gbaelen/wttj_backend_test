@@ -1,6 +1,5 @@
 defmodule WttjBackendTestTest do
   use ExUnit.Case
-  doctest WttjBackendTest
 
   @tag :pending
   test "gets fr country code" do
@@ -149,13 +148,13 @@ defmodule WttjBackendTestTest do
       ["Marketing / Comm'", "Asia"] => 12,
       ["Retail", "Africa"] => 1,
       ["Tech", "Europe"] => 10,
-      ["Retail", "Total"] => 8,
-      ["Marketing / Comm'", "Total"] => 12,
-      ["Tech", "Total"] => 10,
-      ["Total", "Africa"] => 1,
-      ["Total", "Asia"] => 19,
-      ["Total", "Europe"] => 10,
-      ["Total", "Total"] => 30
+      ["Retail", " Total"] => 8,
+      ["Marketing / Comm'", " Total"] => 12,
+      ["Tech", " Total"] => 10,
+      [" Total", "Africa"] => 1,
+      [" Total", "Asia"] => 19,
+      [" Total", "Europe"] => 10,
+      [" Total", " Total"] => 30
     }
 
     assert WttjBackendTest.add_total_to_frequencies(frequencies_example_small) == expected
