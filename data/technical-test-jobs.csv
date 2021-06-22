@@ -1,4 +1,4 @@
-profession_id,contract_type,name,office_latitude,office_longitude
+profession_id,contract_type,name,latitude,longitude
 7,INTERNSHIP,[Louis Vuitton Germany] Praktikant (m/w) im Bereich Digital Retail (E-Commerce),48.1392154,11.5781413
 5,INTERNSHIP,Bras droit de la fondatrice,48.885247,2.3566441
 31,FULL_TIME,"[Louis Vuitton North America] Team Manager, RTW - NYC",40.7630463,-73.973527
@@ -1632,7 +1632,7 @@ profession_id,contract_type,name,office_latitude,office_longitude
 14,FULL_TIME,Développeur Front End React H/F,48.8741223,2.3182442
 13,FULL_TIME,Développeur back end Data (GO/PHP) H/F,48.8741223,2.3182442
 5,FULL_TIME,Project Analyst - FABERNOVEL US,37.7749295,-122.4194155
-13,INTERNSHIP,STAGE DÉVELOPPEUR WEB H/F - Montpellier (34000)	(34),43.6073874,3.9130944
+13,INTERNSHIP,STAGE DÉVELOPPEUR WEB H/F - Montpellier (34000),43.6073874,3.9130944
 3,INTERNSHIP,Stage Assistant(e) Editorial H/F - 6 mois,48.8741223,2.3182442
 33,INTERNSHIP,Assistant(e) e-commerce (Stage),48.859632,2.378817
 12,FULL_TIME,Product Manager,48.8682822,2.3565589
@@ -2728,7 +2728,7 @@ profession_id,contract_type,name,office_latitude,office_longitude
 5,FULL_TIME,Ingénieur qualification d'équipements pharmaceutiques (H/F),50.8266141,4.3642565
 14,FULL_TIME,DEVELOPPEUR FRONT-OFFICE .NET H/F,48.909354,2.36242
 2,FULL_TIME,Pre-Sales Engineer,48.8825808,2.2636736
-38,FULL_TIME,Responsable Marketing et Communication H/F 	,48.8730907,2.3176989
+38,FULL_TIME,Responsable Marketing et Communication H/F ,,48.8730907
 13,FULL_TIME,Lead Developer,43.61839,3.9162972
 8,APPRENTICESHIP,Alternance Organisateur Bancaire H/F,48.8640493,2.3310526
 18,FULL_TIME,TECHNICIEN SUPPORT INFORMATIQUE H/F,48.909354,2.36242
@@ -3814,7 +3814,7 @@ profession_id,contract_type,name,office_latitude,office_longitude
 12,FULL_TIME,Chef de projet Déploiement Junior Solutions SaaS F/H,48.8722357,2.3276039
 12,FULL_TIME,Chef de projet senior en développement F/H,48.8722357,2.3276039
 39,FULL_TIME,Consultant(e) Confirmé(e),48.872791,2.3401864
-21,FULL_TIME,TECHNICAL WRITER H/F - Montpellier (34000)	,43.6073874,3.9130944
+21,FULL_TIME,TECHNICAL WRITER H/F - Montpellier (34000),,43.6073874
 38,INTERNSHIP,Consultant stagiaire H/F,48.8711007,2.3072152
 17,FULL_TIME,Senior Linux System Administrator,48.8804635,2.2873042
 9,APPRENTICESHIP,Alternant Consulting H/F,48.893217,2.287864

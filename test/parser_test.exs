@@ -48,12 +48,12 @@ defmodule WttjBackendTest.ParserTest do
 
   @tag :pending
   test "gets category and location for correct entry" do
-    assert WttjBackendTest.Parser.extract_category_and_location(["17","FULL_TIME","Infrastructure Engineer based in Paris/Marseille","48.8867578","2.3253786"]) == ["Tech", "Europe"]
+    assert WttjBackendTest.Parser.extract_category_and_location([17,"FULL_TIME","Infrastructure Engineer based in Paris/Marseille",48.8867578,2.3253786], %{17 => "Tech"}) == ["Tech", "Europe"]
   end
 
   @tag :pending
   test "gets category and location for an entry without location" do
-    assert WttjBackendTest.Parser.extract_category_and_location(["2","FULL_TIME","Infrastructure Engineer based in Paris/Marseille","",""]) == ["Business", "Unknown"]
+    assert WttjBackendTest.Parser.extract_category_and_location([2,"FULL_TIME","Infrastructure Engineer based in Paris/Marseille",nil,nil], %{2 => "Business"}) == ["Business", "Unknown"]
   end
 
   @tag :pending

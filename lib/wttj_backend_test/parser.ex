@@ -1,4 +1,6 @@
 defmodule WttjBackendTest.Parser do
+  alias WttjBackendTest.Job
+
   @continent %{"af" => "Asia", "al" => "Europe", "aq" => "Antarctica", "dz" => "Africa", "as" => "Oceania", "ad" => "Europe", "ao" => "Africa", "ag" => "North America", "az" => "Europe", "az" => "Asia", "ar" => "South America", "au" => "Oceania", "at" => "Europe", "bs" => "North America", "bh" => "Asia", "bd" => "Asia", "am" => "Europe", "am" => "Asia", "bb" => "North America", "be" => "Europe", "bm" => "North America", "bt" => "Asia", "bo" => "South America", "ba" => "Europe", "bw" => "Africa", "bv" => "Antarctica", "br" => "South America", "bz" => "North America", "io" => "Asia", "sb" => "Oceania", "vg" => "North America", "bn" => "Asia", "bg" => "Europe", "mm" => "Asia", "bi" => "Africa", "by" => "Europe", "kh" => "Asia", "cm" => "Africa", "ca" => "North America", "cv" => "Africa", "ky" => "North America", "cf" => "Africa", "lk" => "Asia", "td" => "Africa", "cl" => "South America", "cn" => "Asia", "tw" => "Asia", "cx" => "Asia", "cc" => "Asia", "co" => "South America", "km" => "Africa", "yt" => "Africa", "cg" => "Africa", "cd" => "Africa", "ck" => "Oceania", "cr" => "North America", "hr" => "Europe", "cu" => "North America", "cy" => "Europe", "cy" => "Asia", "cz" => "Europe", "bj" => "Africa", "dk" => "Europe", "dm" => "North America", "do" => "North America", "ec" => "South America", "sv" => "North America", "gq" => "Africa", "et" => "Africa", "er" => "Africa", "ee" => "Europe", "fo" => "Europe", "fk" => "South America", "gs" => "Antarctica", "fj" => "Oceania", "fi" => "Europe", "ax" => "Europe", "fr" => "Europe", "gf" => "South America", "pf" => "Oceania", "tf" => "Antarctica", "dj" => "Africa", "ga" => "Africa", "ge" => "Europe", "ge" => "Asia", "gm" => "Africa", "ps" => "Asia", "de" => "Europe", "gh" => "Africa", "gi" => "Europe", "ki" => "Oceania", "gr" => "Europe", "gl" => "North America", "gd" => "North America", "gp" => "North America", "gu" => "Oceania", "gt" => "North America", "gn" => "Africa", "gy" => "South America", "ht" => "North America", "hm" => "Antarctica", "va" => "Europe", "hn" => "North America", "hk" => "Asia", "hu" => "Europe", "is" => "Europe", "in" => "Asia", "id" => "Asia", "ir" => "Asia", "iq" => "Asia", "ie" => "Europe", "il" => "Asia", "it" => "Europe", "ci" => "Africa", "jm" => "North America", "jp" => "Asia", "kz" => "Europe", "kz" => "Asia", "jo" => "Asia", "ke" => "Africa", "kp" => "Asia", "kr" => "Asia", "kw" => "Asia", "kg" => "Asia", "la" => "Asia", "lb" => "Asia", "ls" => "Africa", "lv" => "Europe", "lr" => "Africa", "ly" => "Africa", "li" => "Europe", "lt" => "Europe", "lu" => "Europe", "mo" => "Asia", "mg" => "Africa", "mw" => "Africa", "my" => "Asia", "mv" => "Asia", "ml" => "Africa", "mt" => "Europe", "mq" => "North America", "mr" => "Africa", "mu" => "Africa", "mx" => "North America", "mc" => "Europe", "mn" => "Asia", "md" => "Europe", "me" => "Europe", "ms" => "North America", "ma" => "Africa", "mz" => "Africa", "om" => "Asia", "na" => "Africa", "nr" => "Oceania", "np" => "Asia", "nl" => "Europe", "an" => "North America", "cw" => "North America", "aw" => "North America", "sx" => "North America", "bq" => "North America", "nc" => "Oceania", "vu" => "Oceania", "nz" => "Oceania", "ni" => "North America", "ne" => "Africa", "ng" => "Africa", "nu" => "Oceania", "nf" => "Oceania", "no" => "Europe", "mp" => "Oceania", "um" => "Oceania", "um" => "North America", "fm" => "Oceania", "mh" => "Oceania", "pw" => "Oceania", "pk" => "Asia", "pa" => "North America", "pg" => "Oceania", "py" => "South America", "pe" => "South America", "ph" => "Asia", "pn" => "Oceania", "pl" => "Europe", "pt" => "Europe", "gw" => "Africa", "tl" => "Asia", "pr" => "North America", "qa" => "Asia", "re" => "Africa", "ro" => "Europe", "ru" => "Europe", "ru" => "Asia", "rw" => "Africa", "bl" => "North America", "sh" => "Africa", "kn" => "North America", "ai" => "North America", "lc" => "North America", "mf" => "North America", "pm" => "North America", "vc" => "North America", "sm" => "Europe", "st" => "Africa", "sa" => "Asia", "sn" => "Africa", "rs" => "Europe", "sc" => "Africa", "sl" => "Africa", "sg" => "Asia", "sk" => "Europe", "vn" => "Asia", "si" => "Europe", "so" => "Africa", "za" => "Africa", "zw" => "Africa", "es" => "Europe", "ss" => "Africa", "eh" => "Africa", "sd" => "Africa", "sr" => "South America", "sj" => "Europe", "sz" => "Africa", "se" => "Europe", "ch" => "Europe", "sy" => "Asia", "tj" => "Asia", "th" => "Asia", "tg" => "Africa", "tk" => "Oceania", "to" => "Oceania", "tt" => "North America", "ae" => "Asia", "tn" => "Africa", "tr" => "Europe", "tr" => "Asia", "tm" => "Asia", "tc" => "North America", "tv" => "Oceania", "ug" => "Africa", "ua" => "Europe", "mk" => "Europe", "eg" => "Africa", "gb" => "Europe", "gg" => "Europe", "je" => "Europe", "im" => "Europe", "tz" => "Africa", "us" => "North America", "vi" => "North America", "bf" => "Africa", "uy" => "South America", "uz" => "Asia", "ve" => "South America", "wf" => "Oceania", "ws" => "Oceania", "ye" => "Asia", "zm" => "Africa", "xx" => "Oceania", "xe" => "Asia", "xd" => "Asia", "xs" => "Asia", "n/a" => "Unknown"}
 
   @moduledoc """
@@ -11,29 +13,29 @@ defmodule WttjBackendTest.Parser do
 
   ## Example
 
-    iex> WttjBackendTest.display_count_of_offers_per_category_per_continent
+    iex> WttjBackendTest.Parser.display_count_of_offers_per_category_per_continent
 
-        ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        |                   |       Total       |       Admin       |     Business      |      Conseil      |       Créa        | Marketing / Comm' |      Retail       |       Tech        |      Unknown      |
-        ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        |       Total       |       5069        |        411        |       1445        |        175        |        212        |        782        |        536        |       1439        |        69         |
-        ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        |      Africa       |         9         |         1         |         3         |         0         |         0         |         1         |         1         |         3         |         0         |
-        ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        |       Asia        |        52         |         1         |        30         |         0         |         0         |         3         |         7         |        11         |         0         |
-        ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        |      Europe       |       4794        |        396        |       1372        |        175        |        205        |        759        |        425        |       1402        |        60         |
-        ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        |   North America   |        163        |         9         |        27         |         0         |         7         |        12         |        93         |        14         |         1         |
-        ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        |      Oceania      |         3         |         0         |         0         |         0         |         0         |         1         |         2         |         0         |         0         |
-        ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        |   South America   |         5         |         0         |         4         |         0         |         0         |         0         |         0         |         1         |         0         |
-        ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        |      Unknown      |        43         |         4         |         9         |         0         |         0         |         6         |         8         |         8         |         8         |
-        ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    |                   |       Total       |       Admin       |     Business      |      Conseil      |       Créa        | Marketing / Comm' |      Retail       |       Tech        |      Unknown      |
+    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    |       Total       |       5069        |        411        |       1445        |        140        |        196        |        782        |        516        |       1439        |        140        |
+    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    |      Africa       |         9         |         1         |         3         |         0         |         0         |         1         |         1         |         3         |         0         |
+    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    |       Asia        |        52         |         1         |        30         |         0         |         0         |         3         |         6         |        11         |         1         |
+    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    |      Europe       |       4792        |        396        |       1372        |        139        |        189        |        759        |        408        |       1401        |        128        |
+    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    |   North America   |        163        |         9         |        27         |         0         |         7         |        12         |        92         |        14         |         2         |
+    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    |      Oceania      |         3         |         0         |         0         |         0         |         0         |         1         |         1         |         0         |         1         |
+    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    |   South America   |         5         |         0         |         4         |         0         |         0         |         0         |         0         |         1         |         0         |
+    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    |      Unknown      |        45         |         4         |         9         |         1         |         0         |         6         |         8         |         9         |         8         |
+    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-        :ok
+    :ok
   """
   def display_count_of_offers_per_category_per_continent do
     count_of_offers_per_category_per_continent()
@@ -47,7 +49,7 @@ defmodule WttjBackendTest.Parser do
 
   ## Example
 
-    iex> WttjBackendTest.count_of_offers_per_category_per_continent
+    iex> WttjBackendTest.Parser.count_of_offers_per_category_per_continent
         %{
             ["Retail", "Asia"] => 7,
             ["Marketing / Comm'", "North America"] => 12,
@@ -62,8 +64,10 @@ defmodule WttjBackendTest.Parser do
           }
   """
   def count_of_offers_per_category_per_continent do
-    get_job_csv_data()
-      |> Stream.map(&extract_category_and_location(&1))
+    categories_name = get_category_data()
+
+    get_offers_data()
+      |> Stream.map(&extract_category_and_location(&1, categories_name))
       |> Enum.frequencies
       |> add_total_to_frequencies
   end
@@ -78,7 +82,7 @@ defmodule WttjBackendTest.Parser do
 
   ## Example
 
-    iex> WttjBackendTest.add_total_to_frequencies(%{["Retail", "Asia"] => 7, ["Marketing / Comm'", "Asia"] => 12, ["Retail", "Africa"] => 1, ["Tech", "Europe"] => 10})
+    iex> WttjBackendTest.Parser.add_total_to_frequencies(%{["Retail", "Asia"] => 7, ["Marketing / Comm'", "Asia"] => 12, ["Retail", "Africa"] => 1, ["Tech", "Europe"] => 10})
          %{
             ["Retail", "Asia"] => 7,
             ["Marketing / Comm'", "Asia"] => 12,
@@ -114,7 +118,7 @@ defmodule WttjBackendTest.Parser do
 
   ## Example
 
-    iex> WttjBackendTest.get_total_frequencies(%{["Retail", "Asia"] => 7, ["Marketing / Comm'", "Asia"] => 12, ["Retail", "Africa"] => 1, ["Tech", "Europe"] => 10})
+    iex> WttjBackendTest.Parser.get_total_frequencies(%{["Retail", "Asia"] => 7, ["Marketing / Comm'", "Asia"] => 12, ["Retail", "Africa"] => 1, ["Tech", "Europe"] => 10})
         { %{["Marketing / Comm'", " Total"] => 12, ["Retail", " Total"] => 8, ["Tech", " Total"] => 10}, %{[" Total", "Africa"] => 1, [" Total", "Asia"] => 19, [" Total", "Europe"] => 10} }
   """
   def get_total_frequencies(frequencies) do
@@ -141,7 +145,7 @@ defmodule WttjBackendTest.Parser do
 
   ## Example
 
-    iex> WttjBackendTest.get_total_continents(["Retail", "Marketing / Comm'", "Tech"], ["Asia", "Africa", "Europe"], %{["Retail", "Asia"] => 7, ["Marketing / Comm'", "Asia"] => 12, ["Retail", "Africa"] => 1, ["Tech", "Europe"] => 10})
+    iex> WttjBackendTest.Parser.get_total_continents(["Retail", "Marketing / Comm'", "Tech"], ["Asia", "Africa", "Europe"], %{["Retail", "Asia"] => 7, ["Marketing / Comm'", "Asia"] => 12, ["Retail", "Africa"] => 1, ["Tech", "Europe"] => 10})
 
         %{"Africa" => 1, "Asia" => 19, "Europe" => 10}
 
@@ -172,7 +176,7 @@ defmodule WttjBackendTest.Parser do
 
     ## Example
 
-      iex> WttjBackendTest.get_total_categories(["Retail", "Marketing / Comm'", "Tech"], ["Asia", "Africa", "Europe"], %{["Retail", "Asia"] => 7, ["Marketing / Comm'", "Asia"] => 12, ["Retail", "Africa"] => 1, ["Tech", "Europe"] => 10})
+      iex> WttjBackendTest.Parser.get_total_categories(["Retail", "Marketing / Comm'", "Tech"], ["Asia", "Africa", "Europe"], %{["Retail", "Asia"] => 7, ["Marketing / Comm'", "Asia"] => 12, ["Retail", "Africa"] => 1, ["Tech", "Europe"] => 10})
 
           %{"Marketing / Comm'" => 12, "Retail" => 8, "Tech" => 10}
 
@@ -200,7 +204,7 @@ defmodule WttjBackendTest.Parser do
 
     ## Example
 
-      iex> WttjBackendTest.create_display_string(%{["Retail", "Asia"] => 7, ["Marketing / Comm'", "North America"] => 12, ["Retail", "Africa"] => 1, ["Tech", "Europe"] => 10})
+      iex> WttjBackendTest.Parser.create_display_string(%{["Retail", "Asia"] => 7, ["Marketing / Comm'", "North America"] => 12, ["Retail", "Africa"] => 1, ["Tech", "Europe"] => 10})
           "---------------------------------------------------------------------------------\n|                   | Marketing / Comm' |      Retail       |       Tech        |\n---------------------------------------------------------------------------------\n|      Africa       |         0         |         1         |         0         |\n---------------------------------------------------------------------------------\n|       Asia        |         0         |         7         |         0         |\n---------------------------------------------------------------------------------\n|      Europe       |         0         |         0         |        10         |\n---------------------------------------------------------------------------------\n|   North America   |        12         |         0         |         0         |\n---------------------------------------------------------------------------------\n"
   """
   def create_display_string(frequencies) do
@@ -241,7 +245,7 @@ defmodule WttjBackendTest.Parser do
 
     ## Example
 
-      iex> WttjBackendTest.format_cell("some value", 15)
+      iex> WttjBackendTest.Parser.format_cell("some value", 15)
 
           "  some value   |"
   """
@@ -262,7 +266,7 @@ defmodule WttjBackendTest.Parser do
 
     ## Example
 
-      iex> WttjBackendTest.get_highest_cell_width(%{["Retail", "Asia"] => 7, ["Marketing / Comm'", "North America"] => 12, ["Retail", "Africa"] => 1, ["Tech", "South America"] => 1, ["Business", "Europe"] => 1372, ["Admin", "Unknown"] => 4, ["Business", "Unknown"] => 9, ["Business", "Africa"] => 3, ["Marketing / Comm'", "Africa"] => 1, ["Marketing / Comm'", "Unknown"] => 6})
+      iex> WttjBackendTest.Parser.get_highest_cell_width(%{["Retail", "Asia"] => 7, ["Marketing / Comm'", "North America"] => 12, ["Retail", "Africa"] => 1, ["Tech", "South America"] => 1, ["Business", "Europe"] => 1372, ["Admin", "Unknown"] => 4, ["Business", "Unknown"] => 9, ["Business", "Africa"] => 3, ["Marketing / Comm'", "Africa"] => 1, ["Marketing / Comm'", "Unknown"] => 6})
            17
   """
   def get_highest_cell_width(frequencies) do
@@ -283,7 +287,7 @@ defmodule WttjBackendTest.Parser do
 
     ## Example
 
-      iex> WttjBackendTest.get_category_and_continent_keys(%{["Retail", "Asia"] => 7, ["Marketing / Comm'", "North America"] => 12, ["Retail", "Africa"] => 1, ["Tech", "South America"] => 1, ["Business", "Europe"] => 1372, ["Admin", "Unknown"] => 4, ["Business", "Unknown"] => 9, ["Business", "Africa"] => 3, ["Marketing / Comm'", "Africa"] => 1, ["Marketing / Comm'", "Unknown"] => 6})
+      iex> WttjBackendTest.Parser.get_category_and_continent_keys(%{["Retail", "Asia"] => 7, ["Marketing / Comm'", "North America"] => 12, ["Retail", "Africa"] => 1, ["Tech", "South America"] => 1, ["Business", "Europe"] => 1372, ["Admin", "Unknown"] => 4, ["Business", "Unknown"] => 9, ["Business", "Africa"] => 3, ["Marketing / Comm'", "Africa"] => 1, ["Marketing / Comm'", "Unknown"] => 6})
            {#MapSet<["Admin", "Business", "Marketing / Comm'", "Retail", "Tech"]>, #MapSet<["Africa", "Asia", "Europe", "North America", "South America", "Unknown"]>}
   """
   def get_category_and_continent_keys(frequencies) do
@@ -293,7 +297,7 @@ defmodule WttjBackendTest.Parser do
     {MapSet.new(category_keys), MapSet.new(continent_keys)}
   end
 
-  @spec extract_category_and_location(list) :: list
+  @spec extract_category_and_location(list, map) :: list
   @doc """
     Extract the category and continent in the row of the csv.
 
@@ -303,77 +307,19 @@ defmodule WttjBackendTest.Parser do
 
     ## Example
 
-      iex> WttjBackendTest.extract_category_and_location(["17","FULL_TIME","Infrastructure Engineer based in Paris/Marseille","48.8867578","2.3253786"])
+      iex> WttjBackendTest.Parser.extract_category_and_location(["17","FULL_TIME","Infrastructure Engineer based in Paris/Marseille","48.8867578","2.3253786"])
            ["Tech", "Europe"]
 
   """
-  def extract_category_and_location([category,_,_,latitude,longitude]) do
-    categories_name = get_category_data()
-
-    latitude = if latitude == "" do 0 else String.to_float(latitude) end
-    longitude = if longitude == "" do 0 else String.to_float(longitude) end
+  def extract_category_and_location([category,_,_,latitude,longitude], categories_name) do
+    latitude = if latitude == nil do 0 else latitude end
+    longitude = if longitude == nil do 0 else longitude end
     category_name = if categories_name[category] == nil do "Unknown" else categories_name[category] end
 
     continent = get_location_country_code(latitude, longitude)
                 |> get_continent_from_country_code
 
     [category_name, continent]
-  end
-
-  @spec get_job_csv_data :: File.Stream.t()
-  def get_job_csv_data do
-    File.stream!("data/technical-test-jobs.csv")
-    |> CSV.decode!
-    |> Stream.filter(fn
-      ["profession_id" | _] -> false
-      [_ | _] -> true
-    end)
-  end
-
-  @spec get_category_data :: map
-  @doc """
-    Get the list of categories from the csv
-
-    ## Example
-
-      iex> WttjBackendTest.get_category_data
-           %{
-              "7" => "Marketing / Comm'",
-              "27" => "Créa",
-              "25" => "Admin",
-              "14" => "Tech",
-              "8" => "Business",
-              "36" => "Retail",
-              "20" => "Marketing / Comm'",
-              ...
-            }
-  """
-  def get_category_data do
-    File.stream!("data/technical-test-professions.csv")
-    |> CSV.decode!
-    |> Stream.filter(fn
-      ["id" | _] -> false
-      [_ | _] -> true
-    end)
-    |> Stream.map(&csv_category_to_map(&1))
-    |> Map.new
-  end
-
-  @spec csv_category_to_map(any) :: {String.t(), String.t()}
-  @doc """
-    Get the id and category name from a list of fields from the csv for job categories.
-
-    ## Parameters
-
-      - [id, _, category]: a list representing the fields of a csv, extracting the id and category name.
-
-    ## Example
-
-      iex> WttjBackendTest.csv_category_to_map(["17","Devops / Infrastructure","Tech"])
-           {"17", "Tech"}
-  """
-  def csv_category_to_map([id, _, category]) do
-    {id, category}
   end
 
   @spec get_location_country_code(Float, Float) :: String.t()
@@ -387,11 +333,11 @@ defmodule WttjBackendTest.Parser do
 
     ## Example
 
-      iex> WttjBackendTest.get_location_country_code(48.8683316,2.3554578)
+      iex> WttjBackendTest.Parser.get_location_country_code(48.8683316,2.3554578)
            "fr"
   """
   def get_location_country_code(latitute, longitude) do
-    if latitute == 0 && longitude == 0 do
+    if latitute == 0 || longitude == 0 do
       "n/a"
     else
       {:ok, coordinates} = Geocoder.call({latitute, longitude})
@@ -409,10 +355,65 @@ defmodule WttjBackendTest.Parser do
 
     ## Example
 
-      iex> WttjBackendTest.get_continent_from_country_code("fr")
+      iex> WttjBackendTest.Parser.get_continent_from_country_code("fr")
            "Europe"
   """
   def get_continent_from_country_code(country_code) do
     @continent[country_code]
+  end
+
+
+  ## Function to get the data from ecto
+
+  @spec get_category_data :: map
+  @doc """
+    Get the list of categories.
+
+    ## Example
+
+      iex> WttjBackendTest.Parser.get_category_data
+           %{
+              "7" => "Marketing / Comm'",
+              "27" => "Créa",
+              "25" => "Admin",
+              "14" => "Tech",
+              "8" => "Business",
+              "36" => "Retail",
+              "20" => "Marketing / Comm'",
+              ...
+            }
+  """
+  def get_category_data do
+    for profession <- WttjBackendTest.Job.list_professions, into: %{}, do: {profession.id, profession.category_name}
+  end
+
+  @doc """
+    Get the list of job offers.
+
+    ## Example
+
+      iex> WttjBackendTest.Parser.get_offers_data
+      [
+        [7,
+         "[Louis Vuitton Germany] Praktikant (m/w) im Bereich Digital Retail (E-Commerce)",
+         "INTERNSHIP", 48.1392154, 11.5781413],
+        [5, "Bras droit de la fondatrice", "INTERNSHIP", 48.885247, 2.3566441],
+        [31, "[Louis Vuitton North America] Team Manager, RTW - NYC", "FULL_TIME",
+         40.7630463, -73.973527],
+        [24, "Stagiaire en Comptabilité et Gestion Administrative", "INTERNSHIP",
+         48.8768868, 2.3091203],
+        [17, "Compliance Manager", "FULL_TIME", 48.8867578, 2.3253786],
+        [17, "3 Ingénieurs SI télécoms - H/F", "FULL_TIME", 48.8941822, 2.2071125],
+        [8, "[Christian Dior UK Ltd] Reception Intern, London", "INTERNSHIP",
+         48.8661039, 2.305791],
+        [31, "[Parfums Christian Dior] STAGE CONSEILLER(E) DE VENTE SINOPHONE (F/H)",
+         "INTERNSHIP", 48.8758928, 2.3007863],
+        ...
+      ]
+
+  """
+  def get_offers_data do
+    for offer <- Job.list_offers, into: [], do: [offer.profession_id, offer.name, offer.contract_type, offer.latitude, offer.longitude]
+      |> Enum.to_list
   end
 end

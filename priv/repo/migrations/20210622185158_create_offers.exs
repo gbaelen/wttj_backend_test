@@ -7,11 +7,8 @@ defmodule WttjBackendTest.Repo.Migrations.CreateOffers do
       add :name, :string
       add :latitude, :float
       add :longitude, :float
-      add :profession_id, references(:professions, on_delete: :nothing)
-
+      add :profession_id, :integer
       timestamps()
     end
-
-    create index(:offers, [:profession_id])
   end
 end

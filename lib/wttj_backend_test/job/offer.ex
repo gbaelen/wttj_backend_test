@@ -7,7 +7,7 @@ defmodule WttjBackendTest.Job.Offer do
     field :latitude, :float
     field :longitude, :float
     field :name, :string
-    field :profession_id, :id
+    field :profession_id, :integer
 
     timestamps()
   end
@@ -15,7 +15,7 @@ defmodule WttjBackendTest.Job.Offer do
   @doc false
   def changeset(offer, attrs) do
     offer
-    |> cast(attrs, [:contract_type, :name, :latitude, :longitude])
+    |> cast(attrs, [:profession_id, :contract_type, :name, :latitude, :longitude])
     |> validate_required([:contract_type, :name])
   end
 end

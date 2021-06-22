@@ -28,7 +28,7 @@ end
 
 File.stream!("data/technical-test-jobs.csv")
   |> Stream.drop(1)
-  |> CSV.decode!(headers: [:profession_id, :contract_type, :name, :office_latitude, :office_longitude])
+  |> CSV.decode!(headers: [:profession_id, :contract_type, :name, :latitude, :longitude])
   |> Enum.each(&WttjBackendTest.Seeds.store_offers/1)
 
 File.stream!("data/technical-test-professions.csv")
