@@ -1,0 +1,18 @@
+<h1>Show Profession</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @profession.name %>
+  </li>
+
+  <li>
+    <strong>Category name:</strong>
+    <%= @profession.category_name %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.profession_path(@conn, :edit, @profession) %></span>
+<span><%= link "Back", to: Routes.profession_path(@conn, :index) %></span>

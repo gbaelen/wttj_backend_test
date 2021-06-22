@@ -1,0 +1,28 @@
+<h1>Show Offer</h1>
+
+<ul>
+
+  <li>
+    <strong>Contract type:</strong>
+    <%= @offer.contract_type %>
+  </li>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @offer.name %>
+  </li>
+
+  <li>
+    <strong>Latitude:</strong>
+    <%= @offer.latitude %>
+  </li>
+
+  <li>
+    <strong>Longitude:</strong>
+    <%= @offer.longitude %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.offer_path(@conn, :edit, @offer) %></span>
+<span><%= link "Back", to: Routes.offer_path(@conn, :index) %></span>

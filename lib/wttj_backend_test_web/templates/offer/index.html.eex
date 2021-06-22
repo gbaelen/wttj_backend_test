@@ -1,0 +1,32 @@
+<h1>Listing Offers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Contract type</th>
+      <th>Name</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for offer <- @offers do %>
+    <tr>
+      <td><%= offer.contract_type %></td>
+      <td><%= offer.name %></td>
+      <td><%= offer.latitude %></td>
+      <td><%= offer.longitude %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.offer_path(@conn, :show, offer) %></span>
+        <span><%= link "Edit", to: Routes.offer_path(@conn, :edit, offer) %></span>
+        <span><%= link "Delete", to: Routes.offer_path(@conn, :delete, offer), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Offer", to: Routes.offer_path(@conn, :new) %></span>
