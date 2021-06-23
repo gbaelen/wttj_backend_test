@@ -7,6 +7,10 @@ defmodule WttjBackendTest.Parser do
   Provide functions to parse the data of a list of jobs in order to
   """
 
+  def time_display do
+    {time_in_microseconds, ret_val} = :timer.tc(fn -> display_count_of_offers_per_category_per_continent end)
+  end
+
   @spec display_count_of_offers_per_category_per_continent :: none
   @doc """
   Display the table of job offers count per category pe continent
