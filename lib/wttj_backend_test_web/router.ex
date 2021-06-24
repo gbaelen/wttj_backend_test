@@ -1,5 +1,6 @@
 defmodule WttjBackendTestWeb.Router do
   use WttjBackendTestWeb, :router
+  use Plug.ErrorHandler
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -39,5 +40,14 @@ defmodule WttjBackendTestWeb.Router do
       pipe_through :browser
       live_dashboard "/dashboard", metrics: WttjBackendTestWeb.Telemetry
     end
+  end
+
+  defp handle_errors(conn, %{reason: %Phoenix.Router.NoRouteError{message: message}}) do
+    conn |> json(%{error: message}) |> halt()
+  end
+
+  defp handle_errors(conn, _test) do
+    IO.inspect(_test)
+    conn |> json(%{error: "unknown"}) |> halt()
   end
 end
