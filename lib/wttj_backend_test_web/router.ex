@@ -13,10 +13,11 @@ defmodule WttjBackendTestWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", WttjBackendTestWeb do
-    pipe_through :browser
+  scope "/api", WttjBackendTestWeb do
+    pipe_through :api
 
-    get "/", PageController, :index
+    resources "/offers", OfferController
+    resources "/professions", ProfessionController
   end
 
   # Other scopes may use custom stacks.
