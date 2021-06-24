@@ -20,7 +20,7 @@ defmodule WttjBackendTest.MixProject do
   def application do
     [
       mod: {WttjBackendTest.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :ex_rated]
     ]
   end
 
@@ -46,7 +46,8 @@ defmodule WttjBackendTest.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:geocoder, "~> 1.1"},
-      {:csv, "~> 2.4"}
+      {:csv, "~> 2.4"},
+      {:ex_rated, "~> 2.0"}
     ]
   end
 

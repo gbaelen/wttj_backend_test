@@ -5,7 +5,9 @@ defmodule WttjBackendTestWeb.ProfessionController do
   alias WttjBackendTest.Job.Profession
 
   import Ecto.Query
+  import WttjBackendTest.RateLimit
 
+  plug :rate_limit, max_requests: 5, interval_seconds: 60
   plug :action
 
   def index(conn, params) do
