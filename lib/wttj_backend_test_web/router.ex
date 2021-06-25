@@ -17,6 +17,9 @@ defmodule WttjBackendTestWeb.Router do
   scope "/api/v1", WttjBackendTestWeb do
     pipe_through :api
 
+    get "/offers/:offer_id", OfferController, :get_offer_by_id
+    get "/professions/:profession_id", ProfessionController, :get_profession_by_id
+
     resources "/offers", OfferController
     resources "/professions", ProfessionController
   end
@@ -46,8 +49,7 @@ defmodule WttjBackendTestWeb.Router do
     conn |> json(%{error: message}) |> halt()
   end
 
-  defp handle_errors(conn, _test) do
-    IO.inspect(_test)
+  defp handle_errors(conn, _) do
     conn |> json(%{error: "unknown"}) |> halt()
   end
 end
