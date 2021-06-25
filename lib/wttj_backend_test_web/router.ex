@@ -14,7 +14,7 @@ defmodule WttjBackendTestWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", WttjBackendTestWeb do
+  scope "/api/v1", WttjBackendTestWeb do
     pipe_through :api
 
     resources "/offers", OfferController
