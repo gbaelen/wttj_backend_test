@@ -17,6 +17,8 @@ defmodule WttjBackendTestWeb.ProfessionController do
     order = if params["order"] do String.to_atom(params["order"]) else :id end
 
     professions = Profession
+      |> filter_by_name(params["name"])
+      |> filter_by_category_name(params["category_name"])
       |> order_by({^direction, ^order})
       |> offset(^offset)
       |> limit(^limit)
@@ -28,5 +30,13 @@ defmodule WttjBackendTestWeb.ProfessionController do
   def get_profession_by_id(conn, %{"profession_id" => profession_id}) do
     profession = Repo.get_by(Profession, id: profession_id)
     render conn, profession: profession
+  end
+
+  defp filter_by_name(query, match) do
+    where(query, [profession], ilike(profession.name, ^"%#{match}%"))
+  end
+
+  defp filter_by_category_name(query, match) do
+    where(query, [profession], ilike(profession.category_name, ^"%#{match}%"))
   end
 end

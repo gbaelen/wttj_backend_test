@@ -51,6 +51,9 @@ After everything is installed, then you can start your phoenix server with:
 
 Then in a different terminal, you can use curl to make api requests such as:
 
+``` curl -X GET http://localhost:4000/api/v1/offers\?limit\=100\&order\=name\&direction\=asc\&name\=Lille\&contract_type\=FULL_TIME\&profession_id\=2 -H "Content-Type: application/json" ```
+``` curl -X GET http://localhost:4000/api/v1/professions\?limit\=100\&order\=name\&direction\=asc\&name\=Recherche\&category_name\=Tech -H "Content-Type: application/json" ```
+
 ``` curl -X GET http://localhost:4000/api/v1/professions\?limit\=10" -H "Content-Type: application/json"```
 ``` curl -X GET http://localhost:4000/api/v1/professions\?limit\=10\&offset=20" -H "Content-Type: application/json"```
 ``` curl -X GET http://localhost:4000/api/v1/professions\?limit\=100\&order\=name\&direction\=asc -H "Content-Type: application/json" ```
